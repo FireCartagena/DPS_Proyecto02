@@ -1,0 +1,31 @@
+[
+    {
+      "id": "e1",
+      "title": "Feria de Artesanías Local",
+      "description": "Descubre productos únicos de artesanos de la comunidad.",
+      "date": "2025-07-15",
+      "time": "10:00",
+      "location": "Plaza Central",
+      "organizerId": "u2",
+      "attendees": ["u1"],
+      "comments": [
+        {
+          "userId": "u1",
+          "comment": "¡Excelente evento!",
+          "rating": 5,
+          "timestamp": "2025-07-15T14:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "e2",
+      "title": "Limpieza de Parque",
+      "description": "Ayúdanos a mantener nuestro parque limpio y hermoso.",
+      "date": "2025-08-01",
+      "time": "09:00",
+      "location": "Parque La Esperanza",
+      "organizerId": "u2",
+      "attendees": [],
+      "comments": []
+    }
+  ]
