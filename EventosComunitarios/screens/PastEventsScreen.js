@@ -3,12 +3,23 @@ import { View, Text, FlatList, StyleSheet, RefreshControl } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getEvents } from '../utils/storage';
 import EventCard from '../components/EventCard'; // Reutilizamos el componente EventCard
+import { UserContext } from '../context/UserContext';
 
-function PastEventsScreen({ route }) {
+function PastEventsScreen() {
+  const { currentUser } = useContext(UserContext);
   const [pastEvents, setPastEvents] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
-  const { currentUser } = route.params;
+
+  if (!currentUser) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: 'center', marginTop: 50 }}>
+          Por favor, inicia sesión para ver los eventos pasados.
+        </Text>
+      </View>
+    );
+  }
 
   const fetchPastEvents = async () => {
     setRefreshing(true);
