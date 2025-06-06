@@ -6,8 +6,10 @@ import { getEvents, saveEvents } from '../utils/storage';
 import { useNavigation } from '@react-navigation/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from '../context/UserContext';
 
 function CreateEventScreen({ route }) {
+  const { currentUser } = useContext(UserContext);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date());
@@ -17,8 +19,16 @@ function CreateEventScreen({ route }) {
   const [showTimePicker, setShowTimePicker] = useState(false);
 
   const navigation = useNavigation();
-  const { currentUser } = route.params;
 
+  // Validación si no hay usuario logueado
+  if (!currentUser) {
+    return (
+      <View style={styles.container}>
+        <Text>Por favor, inicia sesión para crear eventos.</Text>
+      </View>
+    );
+  }
+  
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(Platform.OS === 'ios'); // En iOS, el picker se cierra solo si es modal
