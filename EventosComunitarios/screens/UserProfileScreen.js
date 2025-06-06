@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, ScrollView, Button, FlatList, Alert } from 'rea
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getEvents, getUsers } from '../utils/storage';
 import EventCard from '../components/EventCard'; // Reutilizamos el componente EventCard
+import { UserContext } from '../context/UserContext'; 
 
 function UserProfileScreen({ route }) {
-  const { currentUser } = route.params; // El usuario actualmente logueado
-  const navigation = useNavigation();
+const navigation = useNavigation();
+const { currentUser } = useContext(UserContext);
 
   const [attendedEvents, setAttendedEvents] = useState([]);
   const [organizedEvents, setOrganizedEvents] = useState([]);
