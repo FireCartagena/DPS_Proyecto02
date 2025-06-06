@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getUsers, saveUsers } from '../utils/storage';
 import 'react-native-get-random-values'; // Import for uuid
 import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from '../context/UserContext';
 
 function AuthScreen() {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,6 +12,9 @@ function AuthScreen() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState(''); // Solo para registro
   const navigation = useNavigation();
+
+   const { setCurrentUser } = useContext(UserContext);  // <-- Usa el contexto
+
 
   const handleAuth = async () => {
     const users = await getUsers();
@@ -20,8 +24,8 @@ function AuthScreen() {
       const user = users.find(u => u.username === username && u.password === password);
       if (user) {
         Alert.alert("Éxito", "Sesión iniciada correctamente.");
-        // Aquí podrías guardar el usuario logueado en un estado global o contexto
-        navigation.navigate('Home', { currentUser: user }); // Pasa el usuario logueado
+        setCurrentUser(user);           // Guardar usuario en contexto
+        navigation.replace('MainTabs'); // Navegar a las tabs principales sin pasar params
       } else {
         Alert.alert("Error", "Usuario o contraseña incorrectos.");
       }
@@ -51,13 +55,6 @@ function AuthScreen() {
       setPassword('');
       setEmail('');
     }
-  };
-
-  const handleSocialLogin = (platform) => {
-    Alert.alert("Integración Social", `Simulando inicio de sesión con ${platform}. En una app real, integrarías SDKs de Facebook/Google.`);
-    // Aquí iría la lógica real de integración con SDKs de redes sociales (Facebook SDK, Google Sign-In)
-    // Tras el éxito, navegar a 'Home'
-    navigation.navigate('Home', { currentUser: { id: 'socialUser1', username: 'SocialUser', email: 'social@example.com' } });
   };
 
   return (
