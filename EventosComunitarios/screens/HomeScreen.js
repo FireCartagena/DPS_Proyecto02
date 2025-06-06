@@ -3,12 +3,13 @@ import { View, Text, FlatList, StyleSheet, Button, RefreshControl } from 'react-
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getEvents, saveEvents } from '../utils/storage';
 import EventCard from '../components/EventCard'; // Componente para mostrar cada evento
+import { UserContext } from '../context/UserContext';
 
 function HomeScreen({ route }) {
+  const { currentUser } = useContext(UserContext);
   const [events, setEvents] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
-  const { currentUser } = route.params; // Recibe el usuario logueado
 
   const fetchEvents = async () => {
     setRefreshing(true);
