@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, TextInput, Alert, Share } from 'react-native';
 import { getEvents, saveEvents, getUsers } from '../utils/storage';
 import { useFocusEffect } from '@react-navigation/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from '../context/UserContext';
 
 function EventDetailScreen({ route }) {
-  const { event, currentUser } = route.params;
+  const { event} = route.params;
+  const { currentUser } = useContext(UserContext);
   const [currentEvent, setCurrentEvent] = useState(event);
   const [commentText, setCommentText] = useState('');
   const [rating, setRating] = useState(0); // Para calificaciones (1-5 estrellas)
   const [organizerName, setOrganizerName] = useState('Cargando...');
 
+
+  if (!currentUser) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Cargando usuario...</Text>
+      </View>
+    );
+  }
+  
   const isUserAttending = currentEvent.attendees.includes(currentUser.id);
 
   const fetchEventDetails = async () => {
